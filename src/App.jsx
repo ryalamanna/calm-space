@@ -18,7 +18,7 @@ export default function App() {
 
   useEffect(() => {
     setExercise(getRandomExercise())
-    setAffirmations(getRandomAffirmations(5))
+    setAffirmations(getRandomAffirmations(50))
     const handler = (e) => { e.preventDefault(); setDeferredPrompt(e) }
     window.addEventListener('beforeinstallprompt', handler)
     return () => window.removeEventListener('beforeinstallprompt', handler)
