@@ -91,57 +91,94 @@ export const exercises = [
 ]
 
 export const affirmations = [
-  // Grounding & safety
+  // Right now, you are okay
+  'Right now, in this moment, I am okay.',
   'This feeling is temporary. It will pass.',
   'I am safe right now, in this moment.',
-  'Right now, in this moment, I am okay.',
-  'I am grounded. I am here. I am enough.',
+  'I don\'t have to fix everything today. Just this breath.',
+  'Nothing catastrophic is happening right now. I am okay.',
+  'I can slow down. The world will wait.',
+  'I am allowed to feel overwhelmed without being defined by it.',
+  'This moment is hard, but I have been through hard before.',
+  'Even when everything feels like too much, I am still here.',
+  'I don\'t have to be okay right now. But I will be.',
+
+  // Your body is on your side
   'My feet are on the floor. I am held by the earth.',
-  'This too shall pass — it always has.',
-  'I am exactly where I need to be.',
-
-  // Self-compassion
-  'I have survived every difficult moment so far.',
-  'It\'s okay to feel this. I don\'t have to fight it.',
-  'I choose to be gentle with myself today.',
-  'I deserve kindness — especially from myself.',
-  'I am allowed to take up space and feel my feelings.',
-  'I am doing the best I can, and that is always enough.',
-  'I give myself permission to rest.',
-  'I am worthy of peace, just as I am.',
-  'Being gentle with myself is an act of courage.',
-
-  // Breath & body
   'My breath is always with me. I can always return to it.',
   'My body is doing its best to protect me. I am safe.',
-  'Every exhale releases what no longer serves me.',
-  'With every breath, I release a little more tension.',
-  'My body knows how to calm itself. I trust it.',
-  'Each slow breath is a message of safety to my body.',
+  'Every exhale carries some of the tension out with it.',
+  'My shoulders can drop. My jaw can unclench. It\'s safe.',
+  'Each slow breath tells my nervous system: we are safe now.',
+  'My body has carried me through every hard day so far.',
+  'I can feel my heartbeat and it is steady. I am alive. I am here.',
+  'Tension is just energy that needs somewhere to go. I release it now.',
+  'My body is not my enemy. We are in this together.',
 
-  // Perspective & strength
+  // You are not your anxiety
   'I am not my anxiety. I am the one watching it.',
-  'I can let this wave wash over me and pass.',
-  'I am more than my fears.',
-  'Peace is always just a few breaths away.',
-  'I deserve to feel calm and at ease.',
-  'My thoughts are not facts. I can choose what I believe.',
-  'Anxiety is a feeling, not a truth.',
-  'I have faced hard things before. I know how to get through.',
-  'I am braver than I feel right now.',
-  'My strength is quiet but it is always there.',
+  'Anxiety is a feeling, not a forecast.',
+  'My thoughts are not facts. I don\'t have to believe every one of them.',
+  'I can notice this feeling without becoming it.',
+  'Just because my mind says something is dangerous doesn\'t make it true.',
+  'I can hold worry loosely, the way you hold a leaf in an open hand.',
+  'My brain is trying to protect me, even when it overcorrects.',
+  'Fear is loud, but it is not always right.',
+  'I can have a frightening thought without taking frightening action.',
+  'This wave will peak and it will pass. It always does.',
 
-  // Softness & hope
-  'Healing is not linear, and that is okay.',
-  'Small moments of calm are enough. They count.',
-  'I am allowed to feel better.',
-  'Tomorrow holds gentler moments than today.',
-  'I choose to meet this moment with softness.',
-  'I am learning. I am growing. I am okay.',
+  // You\'ve survived harder things
+  'I have survived every difficult moment so far. My record is 100%.',
+  'I have faced hard things before and I came out the other side.',
+  'I have gotten through days I thought would break me.',
+  'I am still standing. That takes more strength than I give myself credit for.',
+  'I know what it feels like when hard things end. This will end too.',
+  'The version of me that got through yesterday is the same one here now.',
+  'I have been scared before and found my footing again. I will now too.',
+
+  // Be gentle with yourself
+  'I deserve the same kindness I would give a good friend.',
+  'It\'s okay to feel this. I don\'t have to fight it or fix it right now.',
+  'I choose to be gentle with myself, especially on the hard days.',
+  'I am doing the best I can with what I have right now. That is enough.',
+  'I give myself permission to rest without earning it first.',
+  'I am not behind. I am not failing. I am human.',
+  'There is no version of me that needs to be ashamed of struggling.',
+  'I can hold myself with the same softness I\'d offer someone I love.',
+  'Struggling doesn\'t mean I\'m weak. It means I\'m carrying something heavy.',
+  'I don\'t need to perform okay. I just need to be honest with myself.',
+
+  // Small moments count
+  'This quiet moment I\'m giving myself right now counts for something.',
+  'Small steps forward are still forward.',
+  'I don\'t need to feel completely better. Just a little softer than before.',
+  'One breath at a time is enough. That\'s all I need to do.',
+  'Even five minutes of stillness can change the rest of the day.',
+  'I don\'t have to solve everything today. Just get through this hour.',
+  'Rest is not laziness. It\'s how I recover enough to keep going.',
+  'I am allowed to take up space, go slowly, and need things.',
+
+  // Grounded and present
+  'I am grounded. I am here. I am enough.',
+  'I am exactly where I need to be.',
+  'This too shall pass — it always has.',
+  'The present moment is the only one I actually have to deal with.',
+  'Right now there is a floor beneath me, air around me, and breath inside me.',
+  'I am real and I am here and that is all that\'s required of me right now.',
+  'The past is done. The future isn\'t here. Right now, I am okay.',
+  'I belong here, in this body, in this moment.',
+
+  // Hope and softness
+  'Healing is not linear, and that\'s okay. I\'m allowed to have hard days.',
+  'Tomorrow holds gentler moments than today does.',
+  'Something in me knows how to find peace. I trust that part.',
+  'I am learning. I am growing. Even when it doesn\'t feel that way.',
   'There is more right with me than wrong with me.',
-  'I am held. I am loved. I am not alone.',
-  'This moment will become a memory. I will look back knowing I made it.',
-  'Something in me knows how to find peace. I trust that part of me.',
+  'I am held. I am loved. Even when I feel completely alone.',
+  'Softer days are ahead. I just have to stay until I reach them.',
+  'I am at peace with where I am, even if it\'s not where I want to be yet.',
+  'I am allowed to feel better. I am allowed to want more ease.',
+  'There is a version of tomorrow where I feel okay. I\'m moving toward it.',
 ]
 
 export function getRandomExercise() {

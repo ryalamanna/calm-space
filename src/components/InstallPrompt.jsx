@@ -6,7 +6,7 @@ export default function InstallPrompt({ onInstall, onDismiss }) {
         Keep Calm Space one tap away.
       </p>
       <button className="install-btn" onClick={onInstall}>Install</button>
-      <button className="install-dismiss" onClick={onDismiss} aria-label="Dismiss">×</button>
+      <button className="install-dismiss" onClick={onDismiss} aria-label="Dismiss">✕</button>
     </div>
   )
 }

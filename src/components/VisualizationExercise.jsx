@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { AppHeader } from './shared'
 
 export default function VisualizationExercise({ exercise, onDone, onBack }) {
   const { scenes } = exercise
@@ -9,46 +10,49 @@ export default function VisualizationExercise({ exercise, onDone, onBack }) {
     if (step < scenes.length - 1) setStep(s => s + 1)
     else setDone(true)
   }
+  function prev() {
+    if (step > 0) setStep(s => s - 1)
+  }
 
   return (
-    <div className="screen fade-in">
-      <div className="screen-inner">
-        <button className="back-btn" onClick={onBack}>← Back</button>
-        <div className="exercise-emoji">{exercise.emoji}</div>
-        <h2 className="screen-title">{exercise.name}</h2>
-        <p className="screen-desc">{exercise.description}</p>
+    <div className="page fade-in">
+      <div className="ambient ambient-1" />
+      <div className="ambient ambient-2" />
+      <div className="ambient ambient-3" />
+      <AppHeader onClose={onBack} />
 
-        {!done ? (
-          <>
-            <div className="viz-card fade-in" key={step}>
-              <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#a78bfa', fontFamily: 'Arial', marginBottom: '1rem' }}>
-                Step {step + 1} of {scenes.length}
+      <div className="screen">
+        <div className="screen-inner">
+          {!done ? (
+            <>
+              <div className="glass-card fade-in" key={step}>
+                <div className="viz-step-badge">Step {step + 1} of {scenes.length}</div>
+                <p className="viz-text">{scenes[step]}</p>
+              </div>
+
+              <div className="grounding-nav">
+                <button className="nav-arrow" onClick={prev} disabled={step === 0}>‹</button>
+                <div className="progress-dots">
+                  {scenes.map((_, i) => (
+                    <div key={i} className={`dot ${i === step ? 'active' : i < step ? 'done' : ''}`} />
+                  ))}
+                </div>
+                <button className="nav-arrow nav-arrow-next" onClick={next}>›</button>
+              </div>
+            </>
+          ) : (
+            <div className="glass-card fade-in" style={{ textAlign: 'center', maxWidth: 400 }}>
+              <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🏡</div>
+              <p style={{ fontFamily: 'Quicksand', fontSize: '1.1rem', color: 'var(--on-surface)', lineHeight: 1.65, marginBottom: '1.5rem' }}>
+                This place is always inside you. Return whenever you need.
               </p>
-              <p className="viz-text">{scenes[step]}</p>
+              <div className="done-row">
+                <button className="btn-primary" onClick={onDone}>Continue</button>
+                <button className="btn-ghost" onClick={onBack}>Return home</button>
+              </div>
             </div>
-
-            <div className="progress-dots">
-              {scenes.map((_, i) => (
-                <div key={i} className={`dot ${i === step ? 'active' : i < step ? 'done' : ''}`} />
-              ))}
-            </div>
-
-            <button className="btn-primary" onClick={next}>
-              {step < scenes.length - 1 ? 'Continue →' : 'Done ✓'}
-            </button>
-          </>
-        ) : (
-          <div className="viz-card fade-in" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '2.5rem' }}>🏡</div>
-            <p style={{ fontSize: '1.05rem', color: '#4c1d95', fontStyle: 'italic', marginTop: '0.75rem' }}>
-              This place is always inside you. You can return whenever you need.
-            </p>
-            <div className="done-row" style={{ marginTop: '1.25rem' }}>
-              <button className="btn-primary" onClick={onDone}>Continue</button>
-              <button className="btn-ghost" onClick={onBack}>Home</button>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   )

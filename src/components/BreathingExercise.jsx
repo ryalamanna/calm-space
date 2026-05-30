@@ -1,4 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
+import { AppHeader } from './shared'
+
+// Color per phase
+const PHASE_COLORS = {
+  'Breathe In':  { orb: 'rgba(210,188,250,', glow: 'rgba(210,188,250,' },
+  'Hold':        { orb: 'rgba(154,208,208,', glow: 'rgba(154,208,208,' },
+  'Breathe Out': { orb: 'rgba(154,208,208,', glow: 'rgba(154,208,208,' },
+}
+
+function getColor(label) {
+  const key = Object.keys(PHASE_COLORS).find(k => label.toLowerCase().includes(k.toLowerCase()))
+  return PHASE_COLORS[key] || PHASE_COLORS['Breathe In']
+}
 
 export default function BreathingExercise({ exercise, onDone, onBack }) {
   const { steps, rounds } = exercise
@@ -7,6 +20,7 @@ export default function BreathingExercise({ exercise, onDone, onBack }) {
   const [roundIdx, setRoundIdx] = useState(0)
   const [secondsLeft, setSecondsLeft] = useState(steps[0].duration)
   const [done, setDone] = useState(false)
+  const [expanded, setExpanded] = useState(false)
   const timerRef = useRef(null)
 
   useEffect(() => {
@@ -14,17 +28,10 @@ export default function BreathingExercise({ exercise, onDone, onBack }) {
     timerRef.current = setInterval(() => {
       setSecondsLeft(s => {
         if (s > 1) return s - 1
-
-        // advance step
         clearInterval(timerRef.current)
         const nextStep = (stepIdx + 1) % totalSteps
         const nextRound = nextStep === 0 ? roundIdx + 1 : roundIdx
-
-        if (nextRound >= rounds) {
-          setDone(true)
-          return 0
-        }
-
+        if (nextRound >= rounds) { setDone(true); return 0 }
         setStepIdx(nextStep)
         setRoundIdx(nextRound)
         return steps[nextStep].duration
@@ -34,61 +41,69 @@ export default function BreathingExercise({ exercise, onDone, onBack }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepIdx, roundIdx, done])
 
+  // Expand on "breathe in", contract on "breathe out"
+  useEffect(() => {
+    const label = steps[stepIdx].label.toLowerCase()
+    setExpanded(label.includes('in'))
+  }, [stepIdx, steps])
+
   const step = steps[stepIdx]
   const isExpand = step.label.toLowerCase().includes('in')
-  const scale = isExpand ? 1.15 : step.label.toLowerCase() === 'hold' ? 1.08 : 0.92
+  const orbSize   = isExpand ? 260 : step.label.toLowerCase() === 'hold' ? 230 : 180
+  const glowSize  = orbSize + 60
+  const c = getColor(step.label)
 
   return (
-    <div className="screen fade-in">
-      <div className="screen-inner">
-        <button className="back-btn" onClick={onBack}>← Back</button>
-        <div className="exercise-emoji">{exercise.emoji}</div>
-        <h2 className="screen-title">{exercise.name}</h2>
-        <p className="screen-desc">{exercise.description}</p>
+    <div className="page fade-in">
+      <div className="ambient ambient-1" />
+      <div className="ambient ambient-2" />
+      <div className="ambient ambient-3" />
+      <AppHeader onClose={onBack} />
 
-        {!done ? (
-          <>
-            <div className="breath-circle-wrap">
-              <div className="pulse-ring" />
-              <div
-                className="breath-circle"
-                style={{
-                  background: `radial-gradient(circle at 40% 35%, ${step.color}cc, ${step.color}88)`,
-                  boxShadow: `0 0 40px ${step.color}66`,
-                  transform: `scale(${scale})`,
-                  transition: `transform ${step.duration * 0.85}s ease-in-out, background 0.6s ease`,
-                }}
-              >
-                <span className="breath-label">{step.label}</span>
-                <span className="breath-count">{secondsLeft}</span>
+      <div className="screen">
+        <div className="screen-inner">
+          {!done ? (
+            <div className="breath-scene">
+              <p className="breath-phase-label">{step.label}</p>
+
+              <div className="breath-orb-wrap">
+                {/* outer glow */}
+                <div className="breath-orb-glow" style={{
+                  width: glowSize, height: glowSize,
+                  background: `radial-gradient(circle, ${c.glow}0.08) 0%, transparent 70%)`,
+                  filter: 'blur(30px)',
+                  transition: `width ${step.duration * 0.85}s ease-in-out, height ${step.duration * 0.85}s ease-in-out`,
+                }} />
+                {/* main orb */}
+                <div className="breath-orb" style={{
+                  width: orbSize, height: orbSize,
+                  background: `radial-gradient(circle at 40% 38%, ${c.orb}0.55) 0%, ${c.orb}0.18) 55%, transparent 80%)`,
+                  filter: 'blur(2px)',
+                  transition: `width ${step.duration * 0.85}s ease-in-out, height ${step.duration * 0.85}s ease-in-out`,
+                }} />
+              </div>
+
+              <p className="breath-round-info">Round {roundIdx + 1} of {rounds}</p>
+
+              <div className="progress-dots">
+                {Array.from({ length: totalSteps }).map((_, i) => (
+                  <div key={i} className={`dot ${i === stepIdx ? 'active' : i < stepIdx ? 'done' : ''}`} />
+                ))}
               </div>
             </div>
-
-            <p className="breath-round-info">
-              Round {roundIdx + 1} of {rounds}
-            </p>
-
-            <div className="progress-dots">
-              {Array.from({ length: totalSteps }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`dot ${i === stepIdx ? 'active' : i < stepIdx ? 'done' : ''}`}
-                />
-              ))}
+          ) : (
+            <div className="glass-card fade-in" style={{ textAlign: 'center', maxWidth: 400 }}>
+              <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🌸</div>
+              <p style={{ fontFamily: 'Quicksand', fontSize: '1.1rem', color: 'var(--on-surface)', lineHeight: 1.65, marginBottom: '1.5rem' }}>
+                Beautifully done. Notice how you feel right now.
+              </p>
+              <div className="done-row">
+                <button className="btn-primary" onClick={onDone}>Continue</button>
+                <button className="btn-ghost" onClick={onBack}>Return home</button>
+              </div>
             </div>
-          </>
-        ) : (
-          <div className="sense-card fade-in" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '2.5rem' }}>🌸</div>
-            <p style={{ fontSize: '1.1rem', color: '#4c1d95', fontStyle: 'italic', marginTop: '0.75rem' }}>
-              Beautifully done. Notice how you feel right now.
-            </p>
-            <div className="done-row" style={{ marginTop: '1.25rem' }}>
-              <button className="btn-primary" onClick={onDone}>Continue</button>
-              <button className="btn-ghost" onClick={onBack}>Home</button>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   )
