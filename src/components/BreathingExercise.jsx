@@ -20,8 +20,15 @@ export default function BreathingExercise({ exercise, onDone, onBack }) {
   const [roundIdx, setRoundIdx] = useState(0)
   const [secondsLeft, setSecondsLeft] = useState(steps[0].duration)
   const [done, setDone] = useState(false)
-  const [expanded, setExpanded] = useState(false)
+  // Start small so the first "breathe in" visibly animates outward
+  const [mounted, setMounted] = useState(false)
   const timerRef = useRef(null)
+
+  // One frame after mount, flip to true so CSS transition fires on first render
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true))
+    return () => cancelAnimationFrame(id)
+  }, [])
 
   useEffect(() => {
     if (done) return
@@ -41,16 +48,12 @@ export default function BreathingExercise({ exercise, onDone, onBack }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepIdx, roundIdx, done])
 
-  // Expand on "breathe in", contract on "breathe out"
-  useEffect(() => {
-    const label = steps[stepIdx].label.toLowerCase()
-    setExpanded(label.includes('in'))
-  }, [stepIdx, steps])
-
   const step = steps[stepIdx]
   const isExpand = step.label.toLowerCase().includes('in')
-  const orbSize   = isExpand ? 260 : step.label.toLowerCase() === 'hold' ? 230 : 180
-  const glowSize  = orbSize + 60
+
+  // Before mounted: always start tiny so the first expand is visible
+  const orbSize  = !mounted ? 80 : isExpand ? 260 : step.label.toLowerCase() === 'hold' ? 230 : 180
+  const glowSize = orbSize + 60
   const c = getColor(step.label)
 
   return (
