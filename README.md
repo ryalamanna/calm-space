@@ -33,5 +33,9 @@ After running `npm run build && npm run preview`, open the preview URL in Chrome
 
 On iOS Safari: tap the Share button → "Add to Home Screen".
 
+## Live App
+
+**[https://calm-space-d3189.web.app/](https://calm-space-d3189.web.app/)** — hosted on Firebase
+
 ## Deploy
-Upload the `dist/` folder to any static host (Netlify, Vercel, GitHub Pages, Cloudflare Pages). The PWA works fully offline after first load.
+Upload the `dist/` folder to any static host (Netlify, Vercel, GitHub Pages, Cloudflare Pages, Firebase). The PWA works fully offline after first load.
